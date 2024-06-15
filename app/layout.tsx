@@ -3,8 +3,9 @@ import { Open_Sans } from "next/font/google";
 import { ClerkProvider } from '@clerk/nextjs'
 
 import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
 
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
@@ -36,7 +37,7 @@ export default function RootLayout({
 						* leaked to the client. The data passed to the client is the same
 						* as if you were to fetch `/api/uploadthing` directly.
 						*/
-					routerConfig={extractRouterConfig(ourFileRouter)}
+						routerConfig={extractRouterConfig(ourFileRouter)}
 					/>
 					<ThemeProvider
 						attribute="class"
@@ -45,7 +46,8 @@ export default function RootLayout({
 						disableTransitionOnChange
 						storageKey="discord-theme"
             			>
-						{children}
+						<ModalProvider />
+							{children}
 					</ThemeProvider>
 				</body>
 			</html>
