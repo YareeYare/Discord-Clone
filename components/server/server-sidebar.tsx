@@ -124,7 +124,9 @@ export const ServerSidebar = async ({
 
 					<SelectSeparator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2"/>
 
-					{textChannels?.length && (
+					{/* The !! operator converts the value of textChannels?.length to a boolean. */}
+					{/* otherwise, 0 (zero) will get printed on screen */}
+					{!!textChannels?.length && (
 						<div className="mb-2">
 							<ServerSection
 								label="Text Channels"
@@ -143,7 +145,7 @@ export const ServerSidebar = async ({
 						</div>
 					)}
 
-					{audioChannels?.length && (
+					{!!audioChannels?.length && (
 						<div className="mb-2">
 							<ServerSection
 								label="Voice Channels"
@@ -162,7 +164,7 @@ export const ServerSidebar = async ({
 						</div>
 					)}
 
-					{videoChannels?.length && (
+					{!!videoChannels?.length && (
 						<div className="mb-2">
 							<ServerSection
 								label="Video Channels"
@@ -181,7 +183,7 @@ export const ServerSidebar = async ({
 						</div>
 					)}
 
-					{members?.length && (
+					{!!members?.length && (
 						<div className="mb-2">
 							<ServerSection
 								label="Members"
