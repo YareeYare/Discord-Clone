@@ -57,7 +57,7 @@ export const DeleteChannelModal = () => {
                               </DialogDescription>
                         </DialogHeader>
 
-                        <DialogFooter className="bg-gray-100 px-6 py-4">
+                        <DialogFooter className="bg-gray-100 px-6 py-4 sm:rounded-lg">
 					<div className="flex items-center justify-between w-full">
 						<Button
 							disabled={isLoading}
