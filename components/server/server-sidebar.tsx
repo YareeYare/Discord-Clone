@@ -61,7 +61,7 @@ export const ServerSidebar = async ({
 	})
 
 	if( !server ) {
-		redirect('/')
+		return redirect('/')
 	}
 
 	const textChannels = server?.channels.filter( (channel) => channel.type === ChannelType.TEXT )
