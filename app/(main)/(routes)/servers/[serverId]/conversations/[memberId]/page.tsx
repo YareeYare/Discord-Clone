@@ -1,8 +1,59 @@
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 
-const MemberIdPage = () => {
+import db from "@/lib/db"
+import { currentProfile } from "@/lib/current-profile"
+import { getOrCreateConversation } from "@/lib/conversation"
+import { ChatHeader } from "@/components/chat/chat-header"
+
+interface MemberIdPageProps {
+	params: {
+		memberId: string
+		serverId: string
+	}
+}
+
+const MemberIdPage = async ({ params }: MemberIdPageProps) => {
+
+	const profile = await currentProfile()
+
+	if( !profile ) {
+		return auth().redirectToSignIn()
+	}
+
+	const currentMember = await db.member.findFirst({
+		where: {
+			serverId: params.serverId,
+			profileId: profile.id
+		},
+		include: {
+			profile: true
+		}
+	})
+
+	if( !currentMember ) {
+		return redirect('/')
+	}
+
+	const conversation = await getOrCreateConversation( currentMember.id , params.memberId )
+
+	if( !conversation ) {
+		return redirect(`/servers/${params.serverId}`)
+	}
+
+	const { memberOne, memberTwo } = conversation
+
+	// i want to know who initiated the convo, if i am one then i initiated the convo.
+	const otherMember = memberOne.profileId === profile.id ? memberTwo : memberOne
+
 	return (
-		<div>
-			Member Id Page
+		<div className="bg-white dark:bg-[#313338] flex flex-col h-full">
+			<ChatHeader
+				imageUrl={otherMember.profile.imageUrl}
+				name={otherMember.profile.name}
+				serverId={params.serverId}
+				type="conversation"
+			/>
 		</div>
 	)
 }
