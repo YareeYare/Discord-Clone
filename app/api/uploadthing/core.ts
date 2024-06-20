@@ -35,7 +35,7 @@ export const ourFileRouter = {
 			// return { uploadedBy: metadata.userId };
 		}),
 
-	messageFile: f(["image", "pdf", "video", "audio"])
+	messageFile: f(["image", "pdf"])
 		.middleware(() => handleAuth())
 		.onUploadComplete(() => {})
 } satisfies FileRouter;
