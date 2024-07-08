@@ -1,12 +1,15 @@
 "use client"
 
-import { Member, Message, Profile } from "@prisma/client"
-import { ChatWelcome } from "./chat-welcome"
-import { useChatQuery } from "@/hooks/use-chat-query"
-import { Loader2, ServerCrash } from "lucide-react"
 import { Fragment } from "react"
-import { ChatItem } from "./chat-item"
 import { format } from "date-fns"
+import { Member, Message, Profile } from "@prisma/client"
+import { Loader2, ServerCrash } from "lucide-react"
+
+import { useChatQuery } from "@/hooks/use-chat-query"
+import { useChatSocket } from "@/hooks/use-chat-socket"
+
+import { ChatWelcome } from "./chat-welcome"
+import { ChatItem } from "./chat-item"
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm"
 
@@ -31,8 +34,12 @@ interface ChatMessagesProps {
 export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: ChatMessagesProps) => {
 
 	const queryKey = `chat:${chatId}`
+	const addKey = `chat:${chatId}:messages`
+	const updateKey = `chat:${chatId}:messages:update`
 
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useChatQuery({ queryKey, apiUrl, paramKey, paramValue })
+
+	useChatSocket({ queryKey, addKey, updateKey })
 
 	if( status === "pending" ) {
 		return (
