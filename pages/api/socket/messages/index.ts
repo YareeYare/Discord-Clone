@@ -28,7 +28,7 @@ export default async function handler(
 			return res.status(400).json({ error: "Channel ID Missing"})
 		}
 
-		if( !channelId ) {
+		if( !content ) {
 			return res.status(400).json({ error: "Content Missing"})
 		}
 
@@ -58,7 +58,7 @@ export default async function handler(
 		})
 
 		if( !channel ) {
-			return res.status(404).json({ message: "Server not found" })
+			return res.status(404).json({ message: "Channel not found" })
 		}
 
 		const member = server.members.find((member) => member.profileId === profile.id)
