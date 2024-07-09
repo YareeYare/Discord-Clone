@@ -40,6 +40,7 @@ export const NavigationItem = ({
 						fill
 						src={imageUrl}
 						alt="Server Image"
+						sizes="(max-width: 48px)"
 					/>
 				</div>
 			</button>

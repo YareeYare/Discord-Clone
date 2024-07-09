@@ -155,6 +155,7 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, cur
 								alt={content}
 								fill
 								className="object-cover"
+								sizes="(max-width: 192px)"
 							/>
 						</a>
 					)}
