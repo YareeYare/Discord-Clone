@@ -138,7 +138,12 @@ export default async function handler(
 
 		const updateKey = `chat:${conversation.id}:messages:update`
 
-		res?.socket?.server?.io?.emit(updateKey, directMessage)
+		// Enhanced error handling for socket operations
+		try {
+			res?.socket?.server?.io?.emit(updateKey, directMessage);
+		} catch (socketError) {
+			console.log("[SOCKET_EMIT_ERROR]", socketError);
+		}
 
 		return res.status(200).json({ directMessage })
 	} catch( error ) {

@@ -1,10 +1,10 @@
 "use client"
 
 import { createContext, useContext, useEffect, useState } from "react"
-import { io as ClientIO } from "socket.io-client"
+import { io as ClientIO, Socket } from "socket.io-client"
 
 type SocketContextType = {
-	socket: any | null
+	socket: Socket | null
 	isConnected: boolean
 }
 
@@ -18,37 +18,53 @@ export const useSocket = () => {
 }
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-	const [socket, setSocket] = useState(null)
+	const [socket, setSocket] = useState<Socket | null>(null)
 	const [isConnected, setIsConnected] = useState(false)
 
 	useEffect(() => {
-		// NEXT_PUBLIC_SITE_URL is localhost by default in development
-		const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-			path: "/api/socket/io",
-			addTrailingSlash: false
-		})
+		let socketInstance: Socket | null = null
 
-		socketInstance.on("connect", () => {
-			setIsConnected( true )
-		})
+		try {
+			// Ensure NEXT_PUBLIC_SITE_URL is defined
+			if (!process.env.NEXT_PUBLIC_SITE_URL) {
+				throw new Error("NEXT_PUBLIC_SITE_URL is not defined")
+			}
 
-		socketInstance.on("disconnect", () => {
-			setIsConnected( false )
-		})
-		
-		setSocket( socketInstance )
+			// Initialize socket
+			socketInstance = ClientIO(process.env.NEXT_PUBLIC_SITE_URL, {
+				path: "/api/socket/io",
+				addTrailingSlash: false
+			})
+
+			// Event listeners
+			socketInstance.on("connect", () => {
+				setIsConnected(true)
+			})
+
+			socketInstance.on("disconnect", () => {
+				setIsConnected(false)
+			})
+
+			setSocket(socketInstance)
+		} catch (error) {
+			console.error("Socket initialization error:", error)
+			if (socketInstance) {
+				socketInstance.disconnect()
+			}
+		}
 
 		// Cleanup function
 		return () => {
-			socketInstance.disconnect()
+			if (socketInstance) {
+				socketInstance.disconnect()
+			}
 		}
 
-	},[])
+	}, [])
 
 	return (
 		<SocketContext.Provider value={{ socket, isConnected }}>
 			{children}
 		</SocketContext.Provider>
 	)
-	
 }

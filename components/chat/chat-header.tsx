@@ -8,11 +8,12 @@ import { ChatVideoButton } from "./chat-video-button"
 interface ChatHeaderProps {
 	serverId: string
 	name: string
+	email?: string
 	type: "channel" | "conversation"
 	imageUrl?: string
 }
 
-export const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
+export const ChatHeader = ({ serverId, name, email, type, imageUrl }: ChatHeaderProps) => {
 	return (
 		<div className="text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2">
 			<MobileToggle serverId={serverId} />
@@ -28,7 +29,7 @@ export const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) 
 				/>
 			)}
 			<p className="font-semibold text-md text-black dark:text-white">
-				{name}
+				{name !== "null null" ? name : email}
 			</p>
 
 			<div className="ml-auto flex items-center">

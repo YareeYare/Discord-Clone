@@ -16,69 +16,79 @@ type MessageWithMemberWithProfile = Message & {
 }
 
 export const useChatSocket = ({ addKey, updateKey, queryKey }: ChatSocketProps) => {
-	const { socket } = useSocket()
-	const queryClient = useQueryClient()
+	const { socket } = useSocket();
+	const queryClient = useQueryClient();
 
 	useEffect(() => {
-		if( !socket ) return
+		if (!socket) return;
 
-		socket.on(updateKey, (message: MessageWithMemberWithProfile) => {
-			queryClient.setQueryData([queryKey], (oldData: any) => {
-				if( !oldData || !oldData.pages || oldData.pages.length === 0 ){
-					return oldData;
-				}
-
-				const newData = oldData.pages.map((page: any) => {
-					return {
-						...page,
-						items: page.items.map((item: MessageWithMemberWithProfile) => {
-							if( item.id === message.id ){
-								return message
-							}
-
-							return item
-						})
+		const handleUpdate = (message: MessageWithMemberWithProfile) => {
+			try {
+				queryClient.setQueryData([queryKey], (oldData: any) => {
+					if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+						return oldData;
 					}
-				})
 
-				return {
-					...oldData,
-					pages: newData
-				}
-			})
-		})
+					const newData = oldData.pages.map((page: any) => {
+						return {
+							...page,
+							items: page.items.map((item: MessageWithMemberWithProfile) => {
+								if (item.id === message.id) {
+									return message;
+								}
 
-		socket.on(addKey, (message: MessageWithMemberWithProfile) => {
-			queryClient.setQueryData([queryKey], (oldData: any) => {
-				if( !oldData || !oldData.pages || oldData.pages.length === 0 ){
+								return item;
+							}),
+						};
+					});
+
 					return {
-						pages: [{
-							items: [message]
-						}]
+						...oldData,
+						pages: newData,
+					};
+				});
+			} catch (error) {
+				console.error("Error handling updateKey event:", error);
+			}
+		};
+
+		const handleAdd = (message: MessageWithMemberWithProfile) => {
+			try {
+				queryClient.setQueryData([queryKey], (oldData: any) => {
+					if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+						return {
+							pages: [{
+								items: [message],
+							}],
+						};
 					}
-				}
-				
-				const newData = [...oldData.pages]
 
-				newData[0] = {
-					...newData[0],
-					items: [
-						message,
-						...newData[0].items
-					]
-				}
+					const newData = [...oldData.pages];
 
-				return {
-					...oldData,
-					pages: newData
-				}
-			})
-		})
+					newData[0] = {
+						...newData[0],
+						items: [
+							message,
+							...newData[0].items,
+						],
+					};
+
+					return {
+						...oldData,
+						pages: newData,
+					};
+				});
+			} catch (error) {
+				console.error("Error handling addKey event:", error);
+			}
+		};
+
+		socket.on(updateKey, handleUpdate);
+		socket.on(addKey, handleAdd);
 
 		return () => {
-			socket.off(addKey)
-			socket.off(updateKey)
-		}
-
-	},[queryClient, addKey, queryKey, socket, updateKey])
-}
+			socket.off(addKey, handleAdd);
+			socket.off(updateKey, handleUpdate);
+		};
+	}, [queryClient, addKey, queryKey, socket, updateKey]);
+};

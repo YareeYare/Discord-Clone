@@ -13,6 +13,7 @@ interface ServerSearchProps {
 			icon: React.ReactNode
 			name: string
 			id: string
+			email?: string
 		}[] | undefined
 	}[]
 }
@@ -80,10 +81,10 @@ export const ServerSearch = (
 
 						return (
 							<CommandGroup key={label} heading={label}>
-								{data?.map(({ id, icon, name }) => (
+								{data?.map(({ id, icon, name, email }) => (
 									<CommandItem key={id} onClick={() => onClick({ id, type })}>
 										{icon}
-										<span>{name}</span>
+										<span>{name !== "null null" ? name : email}</span>
 									</CommandItem>
 								))}
 							</CommandGroup>

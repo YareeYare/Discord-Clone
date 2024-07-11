@@ -22,6 +22,7 @@ type MessageWithMemberWithProfile = Message & {
 
 interface ChatMessagesProps {
 	name: string
+	email?: string
 	member: Member
 	chatId: string
 	apiUrl: string
@@ -32,7 +33,7 @@ interface ChatMessagesProps {
 	type: "channel" | "conversation"
 }
 
-export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: ChatMessagesProps) => {
+export const ChatMessages = ({ name, email, member, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: ChatMessagesProps) => {
 
 	const queryKey = `chat:${chatId}`
 	const addKey = `chat:${chatId}:messages`
@@ -81,6 +82,7 @@ export const ChatMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQu
 			{!hasNextPage && <ChatWelcome
 				type={type}
 				name={name}
+				email={email}
 			/>
 			}
 

@@ -85,7 +85,12 @@ export default async function handler(
 
 		const channelKey = `chat:${channelId}:messages`
 
-		res?.socket?.server?.io?.emit( channelKey, message )
+		// Enhanced error handling for socket operations
+		try {
+			res?.socket?.server?.io?.emit(channelKey, message);
+		} catch (socketError) {
+			console.log("[SOCKET_EMIT_ERROR]", socketError);
+		}
 
 		return res.status(200).json(message)
 
