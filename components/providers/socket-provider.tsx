@@ -25,13 +25,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 		let socketInstance: Socket | null = null
 
 		try {
-			// Ensure NEXT_PUBLIC_SITE_URL is defined
-			if (!process.env.NEXT_PUBLIC_SITE_URL) {
-				throw new Error("NEXT_PUBLIC_SITE_URL is not defined")
-			}
-
 			// Initialize socket
-			socketInstance = ClientIO(process.env.NEXT_PUBLIC_SITE_URL, {
+			socketInstance = ClientIO(process.env.NEXT_PUBLIC_SITE_URL!, {
 				path: "/api/socket/io",
 				addTrailingSlash: false
 			})

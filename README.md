@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Discord Clone
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This application replicates many of the core features of Discord, providing a comprehensive platform for real-time communication and community building. This clone demonstrates advanced web development techniques and real-time functionality.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live Demo
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Experience the application in action: [Discord Clone](discord-clone-production-e92c.up.railway.app)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Quick Start
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository or download the zip file
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### 🖥️ Server Creation
+- Users can create their own servers
+- Custom server image upload
+- Invite users with shareable URLs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 💬 Real-Time Chat
+- Instant messaging using WebSockets
+- Message editing and deletion
+- Admin and Moderator controls for message management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 📎 File Attachments
+- Support for uploading and sharing various file types (PDF, images, etc.)
+- Real-time file transfer to all users in the channel
 
-## Deploy on Vercel
+### 🎥 Video and Audio Channels
+- Create and join video channels for face-to-face communication
+- Audio-only channels for voice communication
+- Screen sharing capabilities
+- In-call chat functionality
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 👥 User Management
+- Admin and moderator roles
+- User permission management (kicking users, assigning roles)
+- Moderator abilities (message deletion, channel creation/editing)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 🔍 Search Functionality
+- Quick search for channels and members
+- Shortcut commands for efficient navigation
+
+### 💌 Private Messaging
+- One-on-one conversations
+- Video call functionality in private chats
+
+### 🔄 Infinite Loading
+- Efficient message and image loading using React Query
+- Optimized performance for large chat histories
+
+### 🟢 Real-Time Status Updates
+- Live connection status indicator
+- Fallback to polling when WebSocket fails
+
+### 🌓 Dark and Light Modes
+- Toggle between dark and light themes for user preference
+
+### 📱 Responsive Design
+- Fully responsive layout
+- Seamless experience across desktop, tablet, and mobile devices
+
+## Tech Stack
+
+- Next.js
+- Zustand
+- Socket.io
+- TanStack Query
+- Prisma
+- Tailwind CSS
+- PostgreSQL

@@ -15,7 +15,7 @@ export const ChatVideoButton = () => {
 
 	const isVideo = searchParams?.get("video")
 
-	const Icon = isVideo? Video: VideoOff
+	const Icon = isVideo? VideoOff: Video
 	const ToolTipLabel = isVideo? "End Video Call": "Start Video Call"
 
 	const handleClick = () => {
